@@ -29,17 +29,13 @@ public class OrderProcessor implements Runnable{
 
     @Override
     public void run() {
-
         System.out.println("Processing order #"+getOrderId()+" by "+Thread.currentThread().getName());
-
         // simulate processing time - 2 seconds
-
         try {
             Thread.sleep(2000);
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-
         System.out.println("Order #"+getOrderId()+ " processed");
     }
 }
