@@ -40,9 +40,11 @@ public class ThreadSafeCache<K,V>{
     public static void main(String[] args){
         ThreadSafeCache<String,String> cache = new ThreadSafeCache<>();
 
+        String[] cities = {"Nairobi","Moscow","Denver","Tokyo","Helsinki"};
+
         Runnable writerTask = ()-> {
-            for (int i = 1; i <= 5; i++) {
-                cache.put("Key"+i , "Value"+i);
+            for (int i = 0; i < 5; i++) {
+                cache.put("Key"+i , cities[i]);
                 try {
                     Thread.sleep(200);
                 } catch (InterruptedException e) {
@@ -52,8 +54,9 @@ public class ThreadSafeCache<K,V>{
         };
 
         Runnable readerTask = ()->{
-            for (int i = 1; i <= 5; i++) {
-                System.out.println(Thread.currentThread().getName() +" read: Key"+i+ " -> "+ cache.get("Key"+i));
+            for (int i = 0; i < 5; i++) {
+                System.out.println(Thread.currentThread().getName() + " read: Key" + i + " -> " + cache.get("Key" + i));
+
                 try {
                     Thread.sleep(400);
                 } catch (InterruptedException e) {
@@ -67,12 +70,12 @@ public class ThreadSafeCache<K,V>{
         Thread reader = new Thread(readerTask,"Reader-Thread-1");
 
         writer1.start();
-        writer2.start();
+        //writer2.start();
         reader.start();
 
         try {
             writer1.join();
-            writer2.join();
+            //writer2.join();
             reader.join();
         } catch (InterruptedException e) {
             e.printStackTrace();

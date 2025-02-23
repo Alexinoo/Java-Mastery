@@ -1,0 +1,62 @@
+1. Initial Task (entire array): 
+
+	int[] arr = {1,2,3,4,5,6}
+
+1. Initial Task
+	start = 0, end = 6
+	end - start = 6, which is greater than THRESHOLD (3).
+
+
+	Split into two smaller tasks:
+
+	int mid = (start + end) / 2;
+
+
+	Left Task: arr[0..2] → {1, 2, 3}
+
+	Right Task: arr[3..5] → {4, 5, 6}
+
+
+2. Processing the Left Task {1, 2, 3}
+	- start = 0 ,  end = 3
+		(end - start ) <= 3 ; which is equal to THRESHOLD
+	- compute directly
+		sum = ( 1 + 2 + 3)
+	- Return result
+		result = 6
+
+
+3. Processing the Right Task {4, 5, 6}
+	- start = 0 ,  end = 3
+		(end - start ) <= 3 ; which is equal to THRESHOLD
+	- compute directly
+		sum = ( 4 + 5 + 6)
+	- Return result
+		result = 15
+
+4. Final Result
+	Total Sum = Left Task (6) + Right Task (15) = 21
+
+
+Understanding the Execution Flow
+leftTask.fork();
+
+This tells the ForkJoinPool to start executing leftTask asynchronously in a separate thread if possible.
+It does not block the current thread.
+int rightResult = rightTask.compute();
+
+Instead of forking rightTask, we compute it directly in the current thread.
+This is a sequential execution (not parallel) of the right task.
+int leftResult = leftTask.join();
+
+join() waits for the asynchronous leftTask to complete and retrieves the result.
+If the leftTask has already finished, it simply gets the result.
+If it hasn't finished, the current thread will wait for it.
+	
+
+
+
+
+
+
+
